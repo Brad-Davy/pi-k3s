@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: home-dns
+  namespace: home-dns
+  labels:
+    app: home-dns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: home-dns
+  template:
+    metadata:
+      labels:
+        app: home-dns
+    spec:
+      imagePullSecrets:
+        - name: ecr-cred
+      containers:
+        - name: home-dns
+          image: 147997142362.dkr.ecr.eu-west-2.amazonaws.com/home_lab/dns:latest
+          ports:
+            - name: dns-udp
+              containerPort: 30053
+              protocol: UDP
+            - name: web
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: records
+              mountPath: /app/backend
+      volumes:
+        - name: records
+          persistentVolumeClaim:
+            claimName: home-dns-records
