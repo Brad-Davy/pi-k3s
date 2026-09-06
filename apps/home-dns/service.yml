@@ -8,12 +8,6 @@ spec:
   selector:
     app: home-dns
   ports:
-    - name: dns-udp
-      port: 30053
-      targetPort: 30053
-      nodePort: 31053
-      protocol: UDP
-
     - name: web
       port: 8080
       targetPort: 8080
