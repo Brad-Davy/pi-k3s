@@ -8,6 +8,8 @@ spec:
     repoURL: https://github.com/Brad-Davy/pi-k3s.git
     targetRevision: main
     path: apps/infrastructure
+    directory:
+      recurse: true
 
   destination:
     server: https://kubernetes.default.svc
