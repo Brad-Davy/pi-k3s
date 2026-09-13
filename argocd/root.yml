@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/Brad-Davy/pi-k3s.git
     targetRevision: main
-    path: argocd/applications
+    path: argocd
 
   destination:
     server: https://kubernetes.default.svc
