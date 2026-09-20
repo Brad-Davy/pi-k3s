@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-finances
+  namespace: my-finances
+  labels:
+    app: my-finances
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-finances
+  template:
+    metadata:
+      labels:
+        app: my-finances
+    spec:
+      imagePullSecrets:
+        - name: ecr-cred
+      containers:
+        - name: my-finances
+          image: 147997142362.dkr.ecr.eu-west-2.amazonaws.com/home_lab/my-finances:latest
+          ports:
+            - name: web
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: DB_PATH
+              value: /data/finances.db
+            - name: ANTHROPIC_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: my-finances-secrets
+                  key: ANTHROPIC_API_KEY
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: my-finances-data
